@@ -26,5 +26,5 @@ jobs:
                 fi
                 # you can also get badge code of ActionCloud viewer App, and click it to view your data.
             - name: Check output
-              run: echo "ActionCloud issue data: ${{ steps.tracking.outputs.actioncloud-badge}}
+              run: echo "${{ steps.tracking.outputs.actioncloud-badge }}"
     
