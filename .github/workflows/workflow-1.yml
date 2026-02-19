@@ -1,6 +1,7 @@
 name: Workflow 1
-on: push:
-job:
+on: 
+  push
+jobs:
   lint:
     runs-on: ubuntu-latest
     steps:
@@ -11,11 +12,13 @@ job:
         with:
           node-version: '24'
       - name: Install dependencies
-        runs: echo "Installing dependencies..."
-        runs: npm ci
+        run: npm ci
+      - name: Linting
+        run: echo "Installing dependencies..."
       - name: Run linting
-        runs: echo "Running linting..."
-        runs: npm run lint
+        run: npm run lint
+      - name: Linting completed
+        run: echo "Linting completed successfully!"
 
   test:
     needs: lint
@@ -27,12 +30,14 @@ job:
         uses: actions/setup-node@v6
         with:
           node-version: '24'
+      - name: Install messages
+        run: echo "Installing dependencies..."
       - name: Install dependencies
-        runs: echo "Installing dependencies..."
-        runs: npm ci
+        run: npm ci
+      - name: Test messages
+        run: echo "Running tests..."
       - name: Run tests
-        runs: echo "Running tests..."
-        runs: npm test
+        run: npm test
         
   deploy:
     needs: test 
@@ -44,9 +49,11 @@ job:
         uses: actions/setup-node@v6
         with:
           node-version: '24'
+      - name: Install dependencies messages
+        run: echo "Installing dependencies..."
       - name: Install dependencies
-        runs: echo "Installing dependencies..."
-        runs: npm ci
-      - name: Deploy the application
-        runs: echo "Deploying the application..."
-        runs: npm run build
+        run: npm ci
+      - name: Deploy the application message
+        run: echo "Deploying the application..."
+      - name: Build the application
+        run: npm run build
