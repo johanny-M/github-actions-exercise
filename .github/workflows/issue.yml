@@ -1,0 +1,11 @@
+name: Issue tracker workflow
+on:
+    issues:
+        types: [opened, edited, closed]
+    push:
+jobs:
+    issue-tracker:
+        runs-on: ubuntu-latest
+        steps:
+            - name: Issue event details
+              run: echo "${{ toJson(github)}}"
