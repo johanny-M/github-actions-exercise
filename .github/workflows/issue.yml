@@ -2,11 +2,29 @@ name: Issue tracker workflow
 on:
     issues:
         types: [opened, edited, closed]
-    push:
     workflow_dispatch:
 jobs:
     issue-tracker:
         runs-on: ubuntu-latest
         steps:
-            - name: Issue event details
-              run: echo "${{ toJson(github)}}"
+            - name: Checkout
+              uses: actions/checkout@v6
+            - name: Tracking Issues
+              id: tracking
+              uses: actioncloud/issue-tracker-action@master
+              with:
+                github-token: ${{ secrets.GITHUB_TOKEN }}
+            # you need git commit to push the issue data to the folder: .github/actioncloud
+            - name: Git commit
+              run: |
+                if test -n "$(git status --porcelain 2>/dev/null)"; then
+                    git config --global user.email "idegorepl@gmail.com"
+                    git config --global user.name "ActionCloud Bot"
+                    git add .
+                    git commit -m "Update forks data"
+                    git push
+                fi
+                # you can also get badge code of ActionCloud viewer App, and click it to view your data.
+            - name: Check output
+              run: echo "ActionCloud issue data: ${{ steps.tracking.outputs.actioncloud-badge}}
+    
